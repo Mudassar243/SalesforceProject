@@ -8,7 +8,7 @@ public without sharing class FollowUpLogger {
         public String actionTaken;
 
         @InvocableVariable
-        `public String notes;
+        public String notes;
     }
 
     @InvocableMethod(label='Log Follow Up Action')

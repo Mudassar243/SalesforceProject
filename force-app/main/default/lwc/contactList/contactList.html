@@ -1,18 +1,76 @@
 <template>
-    <template for:each={contacts} for:item="con">
-        <div key={con.Id}>
-            <p>{con.Name} - {con.Follow_Up_Due_Date__c}</p>
+    <template if:true={contacts.length}>
 
-            <lightning-input 
-                data-id={con.Id}
-                onchange={handleNotes}>
-            </lightning-input>
+        <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+            
+            <thead>
+                <tr>
+                    <th>Contact Name</th>
+                    <th>Due Date</th>
+                    <th>Notes</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
 
-            <lightning-button 
-                label="Mark Completed"
-                data-id={con.Id}
-                onclick={handleComplete}>
-            </lightning-button>
-        </div>
+            
+            <tbody>
+                <template for:each={contacts} for:item="con">
+                    <tr key={con.Id}>
+                        
+                       
+                        <td>{con.Name}</td>
+
+                        
+                        <td>{con.Follow_Up_Due_Date__c}</td>
+
+                       
+                        <td>
+                            <lightning-input 
+                                type="text"
+                                variant="label-hidden"
+                                placeholder="Enter notes"
+                                data-id={con.Id}
+                                onchange={handleNotes}>
+                            </lightning-input>
+                        </td>
+
+                        <td>
+                            <lightning-button 
+                                variant="brand"
+                                label="Mark Completed"
+                                data-id={con.Id}
+                                onclick={handleComplete}>
+                            </lightning-button>
+                        </td>
+
+                    </tr>
+                </template>
+            </tbody>
+
+        </table>
+
+    </template>
+
+    <template if:false={contacts.length}>
+               <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+            
+            <thead>
+                <tr>
+                    <th>Contact Name</th>
+                    <th>Due Date</th>
+                    <th>Notes</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td colspan="4" style="text-align:center;">
+                        No pending follow-ups.
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
     </template>
 </template>
