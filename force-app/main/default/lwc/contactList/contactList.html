@@ -1,0 +1,18 @@
+<template>
+    <template for:each={contacts} for:item="con">
+        <div key={con.Id}>
+            <p>{con.Name} - {con.Follow_Up_Due_Date__c}</p>
+
+            <lightning-input 
+                data-id={con.Id}
+                onchange={handleNotes}>
+            </lightning-input>
+
+            <lightning-button 
+                label="Mark Completed"
+                data-id={con.Id}
+                onclick={handleComplete}>
+            </lightning-button>
+        </div>
+    </template>
+</template>
