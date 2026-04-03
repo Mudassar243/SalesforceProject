@@ -5,7 +5,7 @@ public without sharing class FollowUpController {
         return [
             SELECT Id, Name, Follow_Up_Due_Date__c
             FROM Contact
-            WHERE Follow_Up_Status__c = 'Pending'
+            WHERE Follow_Up_Status__c = 'Pending' AND Follow_Up_Due_Date__c <= :System.today()
         ];
     }
 

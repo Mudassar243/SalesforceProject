@@ -2,11 +2,12 @@ import { LightningElement, track, wire } from 'lwc';
 import getPendingFollowUps from '@salesforce/apex/FollowUpController.getPendingFollowUps';
 import markCompleted from '@salesforce/apex/FollowUpController.markCompleted';
 import { refreshApex } from '@salesforce/apex';
+import { NavigationMixin } from 'lightning/navigation';
 
-export default class ContactList extends LightningElement {
-
-    @track contacts = [];
+export default class ContactList extends NavigationMixin(LightningElement) {
+    contacts = [];
     notesMap = {};
+    isLoading = false;
     wiredResult; 
 
     @wire(getPendingFollowUps)
@@ -20,6 +21,20 @@ export default class ContactList extends LightningElement {
             this.contacts = [];
         }
     }
+    handleNavigate(event){
+    const recordId = event.target.dataset.id;
+
+    this[NavigationMixin.GenerateUrl]({
+        type: 'standard__recordPage',
+        attributes: {
+            recordId: recordId,
+            objectApiName: 'Contact',
+            actionName: 'view'
+        }
+    }).then(url => {
+        window.open(url, '_blank'); 
+    });
+}
 
     handleNotes(event){
         const id = event.target.dataset.id;
@@ -27,13 +42,17 @@ export default class ContactList extends LightningElement {
     }
 
     handleComplete(event){
-        const id = event.target.dataset.id;
+        const contactId = event.target.dataset.id;
+        this.isLoading = true; 
 
-        markCompleted({ 
-            contactId: id, 
-            notes: this.notesMap[id] || '' 
-        })
-        .then(() => refreshApex(this.wiredResult)) 
-        .catch(error => console.error(error));
+        markCompleted({ contactId })
+            .then(() => refreshApex(this.wiredResult))
+            .catch(error => console.error(error))
+            .finally(() => {
+                this.isLoading = false; 
+            });
+    }
+    handleRefresh() {
+        refreshApex(this.wiredResult);
     }
 }

@@ -1,4 +1,24 @@
 <template>
+     <lightning-card>
+        <div class="slds-grid slds-align-center slds-justify-between slds-p-horizontal_medium slds-p-vertical_small">
+            <!-- Title centered -->
+<h1 class="slds-text-heading_x-large slds-text-align_center slds-grow slds-text-title_bold">
+    Follow-Up Dashboard
+</h1>        
+            <!-- Refresh icon aligned right -->
+            <lightning-button-icon
+                icon-name="utility:refresh"
+                alternative-text="Refresh"
+                title="Refresh"
+                onclick={handleRefresh}>
+            </lightning-button-icon>
+        </div>
+        <template if:true={isLoading}>
+            <div class="slds-p-around_medium slds-text-align_center">
+                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+            </div>
+        </template>
+
     <template if:true={contacts.length}>
 
         <table class="slds-table slds-table_cell-buffer slds-table_bordered">
@@ -18,8 +38,13 @@
                     <tr key={con.Id}>
                         
                        
-                        <td>{con.Name}</td>
-
+                <td>
+    <a href="javascript:void(0);" 
+       data-id={con.Id} 
+       onclick={handleNavigate}>
+        {con.Name}
+    </a>
+</td>
                         
                         <td>{con.Follow_Up_Due_Date__c}</td>
 
@@ -73,4 +98,5 @@
 
         </table>
     </template>
+    </lightning-card>
 </template>
