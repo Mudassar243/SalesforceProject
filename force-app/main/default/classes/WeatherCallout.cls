@@ -41,22 +41,18 @@ public class WeatherCallout {
         
         if(res.getStatusCode() == 200) {
             
-            // STEP 7: Parse JSON Response
             Map<String, Object> result = (Map<String, Object>) JSON.deserializeUntyped(res.getBody());
-            
-            // Get Weather Condition
+
             List<Object> weatherList = (List<Object>) result.get('weather');
             Map<String, Object> weatherMap = (Map<String, Object>) weatherList[0];
             String condition = (String) weatherMap.get('main');
             
-            // Get Temperature
+       
             Map<String, Object> mainMap = (Map<String, Object>) result.get('main');
             Decimal temperature = (Decimal) mainMap.get('temp');
             
-            // STEP 8: Determine Priority
             String priority = getPriority(condition);
             
-            // STEP 9: Update Lead Record
             lead.Weather_Condition__c = condition;
             lead.Temperature__c       = temperature;
             lead.Weather_Priority__c  = priority;
@@ -69,7 +65,6 @@ public class WeatherCallout {
         }
     }
     
-    // Priority Logic Method
     private static String getPriority(String condition) {
         if(condition == 'Clear') {
             return 'High';
