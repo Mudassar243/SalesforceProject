@@ -1,0 +1,27 @@
+<template>
+    <lightning-card>
+        <div class="slds-p-around_medium">
+
+            <lightning-button
+                label="Check Weather"
+                title="Check Weather"
+                icon-name="utility:umbrella"
+                variant="brand"
+                onclick={handleWeatherCheck}
+                disabled={isLoading}>
+            </lightning-button>
+
+            <template if:true={isLoading}>
+                <lightning-spinner
+                    alternative-text="Fetching Weather..."
+                    size="small">
+                </lightning-spinner>
+                <p class="slds-m-top_small">
+                    Fetching weather data...
+                </p>
+            </template>
+
+           
+        </div>
+    </lightning-card>
+</template>
