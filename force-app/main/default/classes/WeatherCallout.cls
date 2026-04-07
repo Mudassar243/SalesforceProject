@@ -46,8 +46,6 @@ public class WeatherCallout {
             List<Object> weatherList = (List<Object>) result.get('weather');
             Map<String, Object> weatherMap = (Map<String, Object>) weatherList[0];
             String condition = (String) weatherMap.get('main');
-            
-       
             Map<String, Object> mainMap = (Map<String, Object>) result.get('main');
             Decimal temperature = (Decimal) mainMap.get('temp');
             
